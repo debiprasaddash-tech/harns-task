@@ -5,7 +5,7 @@ import "./styles.css";
 import { constructTree } from "./virtualizedTreeHelper";
 import { data } from "./dummyData";
 
-class App extends Component {
+class ReactTreeVirtualized extends Component {
   constructor() {
     super();
     this.state = {
@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     const { checked, expanded, loading } = this.state;
     const nodes = constructTree(data);
-    // console.log(nodes);
+    console.log(nodes);
     return (
       <div className="app-container">
         <Tree
@@ -43,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default ReactTreeVirtualized;

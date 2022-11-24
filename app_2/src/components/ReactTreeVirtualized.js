@@ -1,29 +1,25 @@
 import React from "react";
 import _ from "lodash";
-import Tree, { renderers, FilteringContainer } from "react-virtualized-tree";
+import Tree, { renderers, FilteringContainer,  } from "react-virtualized-tree";
 
 import { constructTree } from "./treeHelper/virtualizedTreeHelper";
 import "react-virtualized/styles.css";
 import "react-virtualized-tree/lib/main.css";
 import "material-icons/css/material-icons.css";
 import { data } from "./treeHelper/dummyData";
-import classNames from "classnames";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 const { Expandable } = renderers;
 
-const SELECT = 10;
+const SELECT = 2;
 
 const Selection = ({ node, children, onChange }) => {
   const { state: { selected } = {} } = node;
-  const className = classNames({
-    "mi mi-check-box": selected,
-    "mi mi-check-box-outline-blank": !selected
-  });
+
 
   return (
     <span>
-      <i
-        className={className}
-        onClick={() =>
+      {selected ? <CheckBoxIcon onClick={() =>
           onChange({
             node: {
               ...node,
@@ -33,9 +29,18 @@ const Selection = ({ node, children, onChange }) => {
               }
             },
             type: SELECT
-          })
-        }
-      />
+          })}/> : <CheckBoxOutlineBlankIcon 
+          onClick={() =>
+            onChange({
+              node: {
+                ...node,
+                state: {
+                  ...(node.state || {}),
+                  selected: !selected
+                }
+              },
+              type: SELECT
+            })}/>}
       {children}
     </span>
   );
@@ -104,7 +109,7 @@ const LargeCollection = (props) => {
 
   console.log("mask", maskIds);
   return (
-    <FilteringContainer nodes={n}>
+    <FilteringContainer nodes={n} >
       {({ nodes }) => {
         return (
           <div style={{ height: 400 }}>
@@ -118,8 +123,8 @@ const LargeCollection = (props) => {
               }}
             >
               {({ style, node, ...rest }) => (
-                <div style={style}>
-                  <Expandable node={node} {...rest}>
+                <div style={style}>       
+                  <Expandable node={node} {...rest}   >
                     <Selection node={node} {...rest}>
                       {node.label}
                     </Selection>
